@@ -28,11 +28,47 @@ export class UserTest {
                 username: "test"
             }
         })
-        
-        if(!user){
+
+        if (!user) {
             throw new Error("User is not found")
         }
-        
+
         return user;
+    }
+}
+
+export class ContactTest {
+    static async deleteAll() {
+        await prismaClient.contact.deleteMany({
+            where: {
+                username: "test"
+            }
+        })
+    }
+
+    static async create() {
+        await prismaClient.contact.create({
+            data: {
+                firstName: "test",
+                lastName: "test",
+                email: "test",
+                phone: "test",
+                username: "test"
+            }
+        })
+    }
+
+    static async get(){
+        const contact = await prismaClient.contact.findFirst({
+            where: {
+                username: "test"
+            }
+        })
+
+        if (!contact) {
+            throw new Error("Contact is not found")
+        }
+
+        return contact;
     }
 }

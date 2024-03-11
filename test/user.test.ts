@@ -25,7 +25,7 @@ describe('POST /api/users', () => {
         expect(response.body.errors).toBeDefined()
     })
 
-    it('should register new user', async () => {
+    it('should be able to register new user', async () => {
         const response = await supertest(app)
             .post("/api/users")
             .send({

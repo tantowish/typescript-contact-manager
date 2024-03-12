@@ -51,8 +51,8 @@ export class ContactTest {
             data: {
                 firstName: "test",
                 lastName: "test",
-                email: "test",
-                phone: "test",
+                email: "test@example.com",
+                phone: "0823194",
                 username: "test"
             }
         })

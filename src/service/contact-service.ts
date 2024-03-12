@@ -4,11 +4,10 @@ import { ContactResponse, CreateContactRequest, SearchContactRequest, UpdateCont
 import { ContactValidation } from "../validation/contact-validation";
 import { Validation } from "../validation/validation";
 import { ResponseError } from "../error/response-error";
-import { logger } from "../app/logging";
 import { Pageable } from "../model/page";
 
 export class ContactService {
-    static async getContactByIdAndUsername(id: string, username: string) {
+    static async checkContactExist(id: string, username: string) {
         const contact = await prismaClient.contact.findUnique({
             where: {
                 id: id,
@@ -26,19 +25,19 @@ export class ContactService {
     static async create(user: User, req: CreateContactRequest): Promise<ContactResponse> {
         const createRequest = Validation.validate(ContactValidation.CREATE, req)
 
-        const record = {
+        const data = {
             ...createRequest,
             ...{ username: user.username }
         }
         const contact = await prismaClient.contact.create({
-            data: record
+            data: data
         })
 
         return toContactResponse(contact)
     }
 
     static async get(user: User, id: string): Promise<ContactResponse> {
-        const contact = await this.getContactByIdAndUsername(id, user.username)
+        const contact = await this.checkContactExist(id, user.username)
 
         return toContactResponse(contact)
     }
@@ -46,7 +45,7 @@ export class ContactService {
     static async update(user: User, req: UpdateContactRequest): Promise<ContactResponse> {
         const updateRequest = Validation.validate(ContactValidation.UPDATE, req)
 
-        await this.getContactByIdAndUsername(updateRequest.id, user.username)
+        await this.checkContactExist(updateRequest.id, user.username)
 
         const contact = await prismaClient.contact.update({
             where: {
@@ -60,7 +59,7 @@ export class ContactService {
     }
 
     static async delete(user: User, id: string): Promise<ContactResponse> {
-        await this.getContactByIdAndUsername(id, user.username)
+        await this.checkContactExist(id, user.username)
 
         const contact = await prismaClient.contact.delete({
             where: {

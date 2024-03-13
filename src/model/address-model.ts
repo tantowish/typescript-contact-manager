@@ -18,6 +18,16 @@ export type CreateAddressRequest = {
     postal_code: string
 }
 
+export type UpdateAddressRequest = {
+    id: string,
+    contact_id: string,
+    street?: string,
+    city?: string,
+    province?: string,
+    country: string,
+    postal_code: string
+}
+
 export function toAddressResponse(address: Address): AddressResponse {
     return {
         id: address.id,

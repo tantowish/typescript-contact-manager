@@ -42,7 +42,7 @@ export class ContactController {
 
     static async delete(req: UserRequest, res: Response, next: NextFunction) {
         try {
-            const response = await ContactService.delete(req.user!, req.params.id)
+            await ContactService.delete(req.user!, req.params.id)
             res.status(200).json({
                 message: 'success'
             })

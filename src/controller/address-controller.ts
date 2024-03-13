@@ -53,4 +53,17 @@ export class AddressController {
             next(e)
         }
     }
+
+    static async list(req: UserRequest, res: Response, next: NextFunction){
+        try {
+            const response = await AddressService.list(req.user!, req.params.contactId)
+
+            res.status(200).json({
+                data:response
+            })
+
+        } catch (e) {
+            next(e)
+        }
+    }
 }

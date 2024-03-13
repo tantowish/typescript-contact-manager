@@ -38,3 +38,15 @@ export function toAddressResponse(address: Address): AddressResponse {
         postal_code: address.postal_code,
     }
 }
+
+export function toAddressResponseArray(addresses: Address[]): AddressResponse[] {
+    return addresses.map(address => ({
+        id: address.id,
+        street: address.street!,
+        city: address.city!,
+        province: address.province!,
+        country: address.country,
+        postal_code: address.postal_code,
+        contact_id: address.contact_id
+    }));
+}

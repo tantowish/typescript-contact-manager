@@ -1,11 +1,10 @@
 import { User } from "@prisma/client";
-import { AddressResponse, CreateAddressRequest, UpdateAddressRequest, toAddressResponse } from "../model/address-model";
+import { AddressResponse, CreateAddressRequest, UpdateAddressRequest, toAddressResponse, toAddressResponseArray } from "../model/address-model";
 import { AddressValidation } from "../validation/address-validation";
 import { Validation } from "../validation/validation";
 import { prismaClient } from "../app/database";
 import { ContactService } from "./contact-service";
 import { ResponseError } from "../error/response-error";
-import { logger } from "../app/logging";
 
 export class AddressService {
     static async checkAddressExist(id: string, contactId: string) {
@@ -81,5 +80,17 @@ export class AddressService {
         })
 
         return toAddressResponse(address)
+    }
+
+    static async list(user: User, contactId:string): Promise<AddressResponse[]> {
+        await ContactService.checkContactExist(contactId, user.username)
+
+        const addresses = await prismaClient.address.findMany({
+            where: {
+                contact_id: contactId
+            }
+        })
+
+        return toAddressResponseArray(addresses)
     }
 }

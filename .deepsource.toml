@@ -10,3 +10,7 @@ name = "javascript"
     "nodejs",
     "jest"
   ]
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
